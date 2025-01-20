@@ -1,3 +1,5 @@
+Name               alishba shahbaz
+Roll #             BIT21008(7th semester-Morning)
 
 A = zeros(100, 100); % Initialize a 100x100 matrix of zeros
 Cx = 50;             % X-coordinate of the circle's center
