@@ -1,0 +1,20 @@
+Chessboard Distance
+
+A = zeros(100, 100); % Initialize a 100x100 matrix of zeros
+Cx = 50;             % X-coordinate of the center
+Cy = 50;             % Y-coordinate of the center
+Radius = 20;         % Radius based on chessboard distance
+
+% Iterate through each pixel
+for i = 1:1:100
+    for j = 1:1:100
+        % Check if the current pixel is within the chessboard distance
+        if max(abs(Cx - i), abs(Cy - j)) <= Radius
+            A(i, j) = 255; % Set pixel value to 255 (white)
+        end
+    end
+end
+
+% Display the final result
+imshow(A, []);
+title('Chessboard Distance Square in a Black Box');
