@@ -1,0 +1,24 @@
+City Block Distance
+
+% Set higher resolution for smoother appearance
+image_size = 500; % Increase the resolution of the grid
+Cx = 250;         % X-coordinate of the center
+Cy = 250;         % Y-coordinate of the center
+Radius = 100;     % Increase radius to match the higher resolution
+
+% Initialize the black image
+A = zeros(image_size, image_size);
+
+% Iterate through each pixel
+for i = 1:1:image_size
+    for j = 1:1:image_size
+        % Check if the pixel lies within the city block distance
+        if abs(Cx - i) + abs(Cy - j) <= Radius
+            A(i, j) = 255; % Set pixel value to 255 (white)
+        end
+    end
+end
+
+% Display the result
+imshow(A, []);
+title('City Block Distance (Improved Smoothness)');
