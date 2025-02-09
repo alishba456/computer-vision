@@ -1,0 +1,16 @@
+
+I = imread('coins.png'); 
+
+if size(I,3) == 3
+    I = rgb2gray(I);
+end
+
+figure, imshow(I), title('Original Image');
+
+figure, imhist(I), title('Histogram of Image');
+
+level = graythresh(I);
+
+BW = imbinarize(I, level);
+
+figure, imshow(BW), title('Binary Image after Otsu Thresholding');
