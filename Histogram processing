@@ -1,0 +1,43 @@
+clc; clear; close all;
+
+I = imread('image.png'); 
+
+if length(size(I)) == 2
+    if islogical(I)
+        imgType = 'Binary';
+    else
+        imgType = 'Grayscale';
+    end
+elseif length(size(I)) == 3
+    imgType = 'RGB';
+    I = rgb2gray(I); 
+else
+    error('Unknown image format.');
+end
+
+[counts, binLocations] = imhist(I);
+meanIntensity = mean(I(:));
+
+if meanIntensity < 50
+    issue = 'Over Dark';
+    I_fixed = imadjust(I, stretchlim(I), []);
+elseif meanIntensity > 200
+    issue = 'Over Bright';
+    I_fixed = imadjust(I, stretchlim(I), []);
+elseif std(double(I(:))) < 30
+    issue = 'Low Contrast';
+    I_fixed = histeq(I);
+else
+    issue = 'Normal';
+    I_fixed = I;
+end
+
+figure;
+subplot(2,3,1), imshow(I), title(['Original Image (', imgType, ')']);
+subplot(2,3,2), imhist(I), title('Original Histogram');
+subplot(2,3,3), text(0.1, 0.5, ['Issue Detected: ', issue], 'FontSize', 12), axis off;
+subplot(2,3,4), imshow(I_fixed), title('Enhanced Image');
+subplot(2,3,5), imhist(I_fixed), title('Enhanced Histogram');
+subplot(2,3,6), text(0.1, 0.5, 'Processing Completed!', 'FontSize', 12), axis off;
+
+imwrite(I_fixed, 'Enhanced_Image.png');
