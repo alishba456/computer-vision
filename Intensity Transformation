@@ -1,0 +1,32 @@
+Step 1: Identifying the Transformations
+
+Result 1: Appears to be negative transformation (inverted pixel values).
+Result 2: Appears to be log transformation (enhancing darker areas).
+Result 3: Appears to be gamma correction (brightening mid-tones).
+Result 4: Appears to be contrast stretching (expanding intensity range).
+
+------------------------------------------------------------------code-----------------------------------------------------------------------------------
+
+I = imread('liftingbody.png'); % Ensure the image is in the same directory
+I = rgb2gray(I); % Convert to grayscale if needed
+
+I_neg = imcomplement(I); % or I_neg = 255 - I;
+
+c = 255 / log(1 + max(I(:))); % Scaling factor
+I_log = c * log(1 + double(I));
+I_log = uint8(I_log); % Convert back to uint8
+
+gamma = 0.5; % Adjust gamma as needed
+I_gamma = uint8(255 * (double(I) / 255) .^ gamma);
+
+I_stretch = imadjust(I, stretchlim(I, [0.02 0.98]), []);
+
+figure;
+subplot(2,3,1), imshow(I), title('Original');
+subplot(2,3,2), imshow(I_neg), title('Negative Transformation');
+subplot(2,3,3), imshow(I_log), title('Log Transformation');
+subplot(2,3,4), imshow(I_gamma), title('Gamma Correction');
+subplot(2,3,5), imshow(I_stretch), title('Contrast Stretching');
+
+
+
