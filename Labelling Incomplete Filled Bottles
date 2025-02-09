@@ -1,0 +1,39 @@
+clc; clear; close all;
+b = imread('bottles.jpg'); 
+grayB = rgb2gray(b);
+
+t = double(multithresh(grayB,2))/256;
+
+bL = imbinarize(grayB, t(1)); 
+bH = imbinarize(grayB, t(2)); 
+
+L = bL - bH;
+
+se5 = strel('disk', 5);
+se10 = strel('disk', 10);
+L1 = imopen(L, se5);
+L2 = imclose(L1, se10);
+
+[L_label, n] = bwlabel(L2);
+
+imshow(b);
+hold on;
+
+for k = 1:n
+    [r, c] = find(L_label == k);
+    rbar = mean(r); % Mean row position (liquid level)
+    cbar = mean(c); % Mean column position (bottle center)
+
+    if rbar > 280
+        plot(cbar, rbar, 'ro', 'LineWidth', 2);
+    end
+end
+
+hold off;
+title('Labelling Incomplete Filled Bottles');
+
+    end
+end
+
+hold off;
+title('Labelling Incomplete Filled Bottles');
